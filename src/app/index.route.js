@@ -8,12 +8,23 @@
   /** @ngInject */
   function routerConfig($stateProvider, $urlRouterProvider) {
     $stateProvider
-      .state('home', {
-        url: '/',
-        templateUrl: 'app/main/main.html',
-        controller: 'MainController',
-        controllerAs: 'main'
-      });
+        .state('root', {
+          url: '/',
+          templateUrl: 'app/root/root.html'
+        })
+          .state('root.list', {
+            url: '^/lists',
+            resolve: {
+              list: function(ListService) {
+                return ListService.getLists();
+              }
+            },
+            views: {
+              'content': {
+                template: '<div>Hello</div>'
+              }
+            }
+          });
 
     $urlRouterProvider.otherwise('/');
   }
