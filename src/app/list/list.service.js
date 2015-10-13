@@ -11,7 +11,8 @@
         var api = 'http://shoppinglist.app/lists';
 
         var service = {
-            getLists: getLists
+            getLists: getLists,
+            getList: getList
         };
 
         return service;
@@ -24,6 +25,13 @@
             return response.data.lists;
         }
 
+        function getList(listSlug) {
+            return $http.get(api + '/' + listSlug).then(processList);
+        }
+
+        function processList(response) {
+            return response.data;
+        }
     }
 
 

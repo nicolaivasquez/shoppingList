@@ -1,0 +1,11 @@
+<div class="col-sm-3 col-sm-offset-2 item-column">
+    <div class="list-group">
+        <a ng-repeat="item in vm.items" class="list-group-item">
+            <!--<item-completed list="vm.parentList" item="item"></item-completed>-->
+            {{ item.name }}
+        </a>
+        <a href class="list-group-item">
+            <span class="glyphicon-plus glyphicon" aria-hidden="true"></span> New Item
+        </a>
+    </div>
+</div>

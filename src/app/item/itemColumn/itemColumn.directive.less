@@ -1,0 +1,22 @@
+@item-column-background-color: #8c8c8c;
+
+.item-column {
+  background-color: @item-column-background-color;
+  padding: 5px;
+}
+
+@media (min-width: 992px) {
+  .item-column {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    bottom: 0;
+    z-index: 1000;
+    display: block;
+    background-color: @item-column-background-color;
+  }
+}
+
+.glyphicon {
+  pointer-events: all;
+}
