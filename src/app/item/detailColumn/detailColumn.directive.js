@@ -1,27 +1,28 @@
-(function(){
+(function() {
     'use strict';
 
     angular
         .module('shopList')
-        .directive('itemColumn', itemColumn);
+        .directive('detailColumn', detailColumn);
 
-    function itemColumn() {
+    function detailColumn() {
         var directive = {
             restrict: 'E',
-            templateUrl: 'app/item/itemColumn/itemColumn.directive.html',
+            templateUrl: 'app/item/detailColumn/detailColumn.directive.html',
             scope: {
                 list: "=",
-                items: "="
+                item: "="
             },
-            controller: ItemColumnController,
+            controller: DetailColumnController,
             controllerAs: 'vm',
             bindToController: true
         };
 
         return directive;
 
-        function ItemColumnController() {
+        function DetailColumnController() {
             var vm = this;
+            console.log(vm);
         }
     }
 })();

@@ -21,14 +21,14 @@
             },
             views: {
               'lists@root': {
-                template: '<list-column lists="vm.data.lists"></list-column>',
+                template: '<list-column lists="listVm.data.lists"></list-column>',
                 controller: function(lists) {
                   var vm = this;
                   vm.data = {
                     lists: lists
                   }
                 },
-                controllerAs: 'vm'
+                controllerAs: 'listVm'
               }
             }
           })
@@ -44,19 +44,25 @@
               },
               views: {
                 'items@root': {
-                  template: '<item-column list="vm.data.list" items="vm.data.items"></item-column>',
+                  template: '<item-column list="selectedListItemVm.data.list" items="selectedListItemVm.data.items"></item-column>',
                   controller: function(list, items) {
                     var vm = this;
                     vm.data = {
                       list: list,
                       items: items
-                    }
-                    console.log(vm.data);
+                    };
                   },
-                  controllerAs: 'vm'
+                  controllerAs: 'selectedListItemVm'
                 },
                 'detail@root': {
-                  template: '<div>Detail Here</div>'
+                  template: '<detail-column list="selectedListDetailVm.data.list"></detail-column>',
+                  controller: function(list) {
+                    var vm = this;
+                    vm.data = {
+                      list: list
+                    };
+                  },
+                  controllerAs: 'selectedListDetailVm'
                 }
               }
             });
