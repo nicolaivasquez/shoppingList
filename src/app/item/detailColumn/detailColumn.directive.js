@@ -22,7 +22,6 @@
 
         function DetailColumnController() {
             var vm = this;
-            console.log(vm);
         }
     }
 })();

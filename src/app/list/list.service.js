@@ -6,9 +6,9 @@
         .factory('ListService', ListService);
 
     /** @ngInject */
-    function ListService($http) {
+    function ListService($http, $log) {
 
-        var api = 'http://shoppinglist.app/lists';
+        var apiEndpoint = 'http://shoppinglist.app/lists';
 
         var service = {
             getLists: getLists,
@@ -18,7 +18,7 @@
         return service;
 
         function getLists() {
-            return $http.get(api).then(processLists);
+            return $http.get(apiEndpoint).then(processLists);
         }
 
         function processLists(response) {
@@ -26,11 +26,17 @@
         }
 
         function getList(listSlug) {
-            return $http.get(api + '/' + listSlug).then(processList);
+            return $http.get(apiEndpoint + '/' + listSlug)
+                .then(processList)
+                .catch(processError);
         }
 
         function processList(response) {
             return response.data;
+        }
+
+        function processError(error) {
+            $log.error('XHR failed to get list.\n' + angular.toJson(error.data, true));
         }
     }
 
