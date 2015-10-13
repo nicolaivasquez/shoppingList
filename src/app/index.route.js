@@ -15,13 +15,20 @@
           .state('root.list', {
             url: '^/lists',
             resolve: {
-              list: function(ListService) {
+              lists: function(ListService) {
                 return ListService.getLists();
               }
             },
             views: {
-              'content': {
-                template: '<div>Hello</div>'
+              'lists': {
+                template: '<list-column lists="vm.data.lists"></list-column>',
+                controller: function(lists) {
+                  var vm = this;
+                  vm.data = {
+                    lists: lists
+                  }
+                },
+                controllerAs: 'vm'
               }
             }
           });

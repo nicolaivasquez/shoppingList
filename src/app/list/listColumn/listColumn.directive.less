@@ -1,0 +1,18 @@
+@sidebar-background-color: #CCCCCC;
+
+.sidebar {
+  background-color: @sidebar-background-color;
+  padding: 5px;
+}
+
+@media (min-width: 992px) {
+  .sidebar {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    bottom: 0;
+    z-index: 1000;
+    display: block;
+    background-color: @sidebar-background-color;
+  }
+}
