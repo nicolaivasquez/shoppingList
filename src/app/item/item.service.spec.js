@@ -48,5 +48,32 @@
                 expect($log.error.logs).toEqual(jasmine.stringMatching('failed'));
             });
         });
+
+        describe('getItem function', function() {
+            it('should exist', function() {
+                expect(ItemService.getItem).not.toEqual(null);
+            });
+
+            it('should return data', function() {
+                var testData = {
+                    "name": "Item 1"
+                };
+                $httpBackend.when('GET', 'http://shoppinglist.app/lists/list-1/items/item-1').respond(200, testData);
+                var data;
+                ItemService.getItem('list-1', 'item-1').then(function(fetchedData){
+                    data = fetchedData;
+                });
+                $httpBackend.flush();
+                expect(data).toEqual(jasmine.any(Object));
+                expect(data.length === testData.length).toBeTruthy();
+            });
+
+            it('should log error', function() {
+                $httpBackend.when('GET', 'http://shoppinglist.app/lists/no-list/items/no-item').respond(404);
+                ItemService.getItem('no-list', 'no-item');
+                $httpBackend.flush();
+                expect($log.error.logs).toEqual(jasmine.stringMatching('failed'));
+            });
+        });
     });
 })();

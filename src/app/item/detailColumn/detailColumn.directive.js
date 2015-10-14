@@ -5,12 +5,12 @@
         .module('shopList')
         .directive('detailColumn', detailColumn);
 
-    function detailColumn() {
+    function detailColumn(ActiveList) {
         var directive = {
             restrict: 'E',
             templateUrl: 'app/item/detailColumn/detailColumn.directive.html',
             scope: {
-                list: "=",
+                //list: "=",
                 item: "="
             },
             controller: DetailColumnController,
@@ -22,6 +22,7 @@
 
         function DetailColumnController() {
             var vm = this;
+            vm.list = ActiveList.getList();
         }
     }
 })();

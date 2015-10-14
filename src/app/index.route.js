@@ -22,11 +22,16 @@
             views: {
               'lists@root': {
                 template: '<list-column lists="listVm.data.lists"></list-column>',
-                controller: function(lists) {
+                controller: function($scope, lists, ActiveList) {
                   var vm = this;
                   vm.data = {
                     lists: lists
-                  }
+                  };
+                  $scope.$watch(function() {
+                    return ActiveList.getList();
+                  }, function(newVal, oldVal) {
+                    console.log(newVal, oldVal);
+                  });
                 },
                 controllerAs: 'listVm'
               }
@@ -35,20 +40,23 @@
             .state('root.list.selected', {
               url: '^/lists/:list',
               resolve: {
-                list: function($stateParams, ListService) {
-                  return ListService.getList($stateParams.list);
+                list: function($stateParams, ListService, ActiveList) {
+                  return ListService.getList($stateParams.list).then(function(list){
+                    ActiveList.setList(list);
+                    return list;
+                  });
                 },
-                items: function($stateParams, ItemService) {
-                  return ItemService.getItems($stateParams.list);
-                }
+                items: ['list', 'ItemService', 'ActiveList', function(list, ItemService, ActiveList) {
+                  return ItemService.getItems(ActiveList.getList().slug);
+                }]
               },
               views: {
                 'items@root': {
                   template: '<item-column list="selectedListItemVm.data.list" items="selectedListItemVm.data.items"></item-column>',
-                  controller: function(list, items) {
+                  controller: function(items, ActiveList) {
                     var vm = this;
                     vm.data = {
-                      list: list,
+                      list: ActiveList.getList(),
                       items: items
                     };
                   },
@@ -56,16 +64,40 @@
                 },
                 'detail@root': {
                   template: '<detail-column list="selectedListDetailVm.data.list"></detail-column>',
-                  controller: function(list) {
+                  controller: function(ActiveList) {
                     var vm = this;
                     vm.data = {
-                      list: list
+                      list: ActiveList.getList()
                     };
                   },
                   controllerAs: 'selectedListDetailVm'
                 }
               }
-            });
+            })
+              .state('root.list.selected.item', {
+                url: '^/lists/:list/items/:item',
+                parent: 'root.list.selected',
+                resolve: {
+                  item: function($stateParams, ItemService, ActiveItem) {
+                    return ItemService.getItem($stateParams.list, $stateParams.item).then(function(item){
+                      ActiveItem.setItem(item);
+                    });
+                  }
+                },
+                views: {
+                  'detail@root': {
+                    template: '<detail-column list="selectedItemDetailVm.data.list" item="selectedItemDetailVm.data.item"></detail-column>',
+                    controller: function(ActiveItem, ActiveList) {
+                      var vm = this;
+                      vm.data = {
+                        list: ActiveList.getList(),
+                        item: ActiveItem.getItem()
+                      };
+                    },
+                    controllerAs: 'selectedItemDetailVm'
+                  }
+                }
+              });
 
     $urlRouterProvider.otherwise('/');
   }
