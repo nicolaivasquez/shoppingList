@@ -8,7 +8,7 @@
     function listColumn() {
         var directive = {
             restrict: 'E',
-            templateUrl: 'app/list/listColumn/listColumn.directive.html',
+            templateUrl: 'app/components/listColumn/listColumn.directive.html',
             scope: {
                 lists: "="
             },

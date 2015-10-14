@@ -22,16 +22,11 @@
             views: {
               'lists@root': {
                 template: '<list-column lists="listVm.data.lists"></list-column>',
-                controller: function($scope, lists, ActiveList) {
+                controller: function($scope, lists) {
                   var vm = this;
                   vm.data = {
                     lists: lists
                   };
-                  $scope.$watch(function() {
-                    return ActiveList.getList();
-                  }, function(newVal, oldVal) {
-                    console.log(newVal, oldVal);
-                  });
                 },
                 controllerAs: 'listVm'
               }
@@ -87,7 +82,7 @@
                 views: {
                   'detail@root': {
                     template: '<detail-column list="selectedItemDetailVm.data.list" item="selectedItemDetailVm.data.item"></detail-column>',
-                    controller: function(ActiveItem, ActiveList) {
+                    controller: function($scope, ActiveItem, ActiveList) {
                       var vm = this;
                       vm.data = {
                         list: ActiveList.getList(),
