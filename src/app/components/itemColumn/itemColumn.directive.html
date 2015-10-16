@@ -4,7 +4,7 @@
             <!--<item-completed list="vm.parentList" item="item"></item-completed>-->
             {{ item.name }}
         </a>
-        <a href class="list-group-item new-item" >
+        <a href class="list-group-item new-item" ui-sref="root.list.selected.newItem({list: vm.list.slug})" ui-sref-active="active">
             <span class="glyphicon-plus glyphicon" aria-hidden="true"></span> New Item
         </a>
     </div>

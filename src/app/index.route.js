@@ -105,6 +105,22 @@
                 }
               }
             })
+              .state('root.list.selected.newItem', {
+                url: '^/lists/:list/items-add',
+                views: {
+                  'detail@root': {
+                    template: '<new-item></new-item>',
+                    controller: function(ListService, toastr, $state) {
+                      var vm = this;
+                      vm.newItem = {
+                        "name": "",
+                        "description": ""
+                      };
+                    },
+                    controllerAs: 'newItemVm'
+                  }
+                }
+              })
               .state('root.list.selected.item', {
                 url: '^/lists/:list/items/:item',
                 parent: 'root.list.selected',
