@@ -32,6 +32,17 @@
               }
             }
           })
+            .state('root.list.new', {
+              url: '^/lists-add',
+              views: {
+                'detail@root': {
+                  template: '<new-list></new-list>',
+                  controller: function() {
+                  },
+                  controllerAs: 'newListVm'
+                }
+              }
+            })
             .state('root.list.selected', {
               url: '^/lists/:list',
               resolve: {

@@ -1,5 +1,20 @@
-<div class="col-sm-9 col-sm-offset-5">
-    Detail Content here.<br/>
-    {{ vm.list }}<hr />
-    {{ vm.item }}
+<div class="col-sm-7 col-sm-offset-5">
+    <div class="list-detail panel panel-default">
+        <div class="panel-heading">
+            <h4>{{ vm.list.name }}</h4>
+        </div>
+        <div class="panel-body">
+            {{ vm.list.description }}
+        </div>
+    </div>
+    <div class="item-detail panel panel-primary">
+        <div class="panel-heading">
+            <h5>{{ vm.item.name }}</h5>
+        </div>
+        <div class="panel-body">
+            {{ vm.item.description }}
+        </div>
+    </div>
+    <hr />
+
 </div>
