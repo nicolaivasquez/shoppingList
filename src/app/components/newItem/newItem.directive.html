@@ -16,9 +16,10 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button class="btn btn-primary"">Add item</button>
+                <button class="btn btn-primary" ng-click="vm.saveItem()">Add item</button>
             </div>
         </div>
     </form>
-    {{ vm.list }}
+    {{ vm.list }}<br />
+    {{ vm.item }}
 </div>

@@ -58,8 +58,7 @@
                             ListService.hasChanges = true;
                             toastr.success('Added new list');
                             $state.transitionTo('root.list.selected', {list: list.slug});
-                          })
-                          .catch(function() {
+                          }, function(error) {
                             toastr.error('Error saving list!')
                           });
                     }
@@ -84,12 +83,21 @@
               views: {
                 'items@root': {
                   template: '<item-column list="selectedListItemVm.data.list" items="selectedListItemVm.data.items"></item-column>',
-                  controller: function(items, ActiveList) {
+                  controller: function($scope, items, ActiveList, ItemService) {
                     var vm = this;
                     vm.data = {
                       list: ActiveList.getList(),
                       items: items
                     };
+                    $scope.$watch(function(){
+                      return ItemService.hasChanges;
+                    }, function(newVal, oldVal){
+                      if (newVal) {
+                        ItemService.getItems(vm.data.list.slug).then(function (response) {
+                          vm.data.items = response;
+                        });
+                      }
+                    });
                   },
                   controllerAs: 'selectedListItemVm'
                 },
@@ -109,13 +117,26 @@
                 url: '^/lists/:list/items-add',
                 views: {
                   'detail@root': {
-                    template: '<new-item></new-item>',
-                    controller: function(ListService, toastr, $state) {
+                    template: '<new-item item="newItemVm.newItem" save="newItemVm.saveItem()"></new-item>',
+                    controller: function(ItemService, toastr, $state, ActiveList) {
                       var vm = this;
+                      vm.list = ActiveList.getList();
                       vm.newItem = {
                         "name": "",
-                        "description": ""
+                        "description": "",
+                        "completed": false
                       };
+                      vm.saveItem = function() {
+                        ItemService.addItem(vm.list.slug, vm.newItem)
+                            .then(function(item) {
+                              toastr.success('Added new item');
+                              $state.transitionTo('root.list.selected.item', {list: item.list, item: item.slug});
+                              ItemService.hasChanges = true;
+                            }, function(error){
+                              console.log(error);
+                              toastr.error('Error saving item!')
+                            });
+                      }
                     },
                     controllerAs: 'newItemVm'
                   }

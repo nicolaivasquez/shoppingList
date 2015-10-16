@@ -9,7 +9,10 @@
         var directive = {
             restrict: 'E',
             templateUrl: 'app/components/newItem/newItem.directive.html',
-            scope: {},
+            scope: {
+                "item": "=",
+                "save": "&"
+            },
             controller: NewItemController,
             controllerAs: 'vm',
             bindToController: true
@@ -19,9 +22,9 @@
 
         function NewItemController() {
             var vm = this;
-            vm.item = {
-                "name": "",
-                "description": ""
+
+            vm.saveItem = function() {
+                vm.save();
             }
         }
     }

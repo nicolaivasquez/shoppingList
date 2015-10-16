@@ -10,6 +10,7 @@
         var api = 'http://shoppinglist.app/lists';
 
         var service = {
+            hasChanges: false,
             getItems: getItems,
             getItem: getItem,
             addItem: addItem
@@ -26,6 +27,7 @@
         }
 
         function processItems(response) {
+            service.hasChanges = false;
             return response.data.items;
         }
 
@@ -35,9 +37,11 @@
                 message = "Error with list";
             }
             $log.error(message + '\n' + angular.toJson(error.data, true));
+            throw error;
         }
 
         function getItem(listSlug, itemSlug) {
+            service.hasChanges = false;
             return $http.get(api + '/' + listSlug + '/items/' + itemSlug)
                 .then(processItem)
                 .catch(function(error) {

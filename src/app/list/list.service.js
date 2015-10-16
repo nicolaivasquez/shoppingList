@@ -51,6 +51,7 @@
                 message = "Error with list";
             }
             $log.error(message + '\n' + angular.toJson(error.data, true));
+            throw error;
         }
 
         function addList(list) {
