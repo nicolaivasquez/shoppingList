@@ -37,14 +37,21 @@
               views: {
                 'detail@root': {
                   template: '<new-list list="newListVm.newList" save="newListVm.saveList()"></new-list>',
-                  controller: function() {
+                  controller: function(ListService, toastr, $state) {
                     var vm = this;
                     vm.newList = {
                       "name": "",
                       "description": ""
                     };
                     vm.saveList = function() {
-                      console.log(vm.newList);
+                      ListService.addList(vm.newList)
+                          .then(function(list) {
+                            toastr.success('Added new list');
+                            $state.transitionTo('root.list.selected', {list: list.slug});
+                          })
+                          .catch(function() {
+                            toastr.error('Error saving list!')
+                          });
                     }
                   },
                   controllerAs: 'newListVm'

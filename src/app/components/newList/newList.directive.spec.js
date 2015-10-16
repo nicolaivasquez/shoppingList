@@ -16,7 +16,6 @@
         }));
 
         it('should be compiled', function() {
-            console.log(el);
             expect(el.html()).not.toEqual(null);
         });
 

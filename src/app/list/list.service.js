@@ -12,13 +12,18 @@
 
         var service = {
             getLists: getLists,
-            getList: getList
+            getList: getList,
+            addList: addList
         };
 
         return service;
 
         function getLists() {
-            return $http.get(apiEndpoint).then(processLists);
+            return $http.get(apiEndpoint)
+                .then(processLists)
+                .catch(function(error) {
+                    processError(error, 'XHR failed to get lists');
+                });
         }
 
         function processLists(response) {
@@ -28,15 +33,29 @@
         function getList(listSlug) {
             return $http.get(apiEndpoint + '/' + listSlug)
                 .then(processList)
-                .catch(processError);
+                .catch(function(error) {
+                    processError(error, 'XHR failed to get list');
+                });
         }
 
         function processList(response) {
             return response.data;
         }
 
-        function processError(error) {
-            $log.error('XHR failed to get list.\n' + angular.toJson(error.data, true));
+        function processError(error, message) {
+            if (!message) {
+                message = "Error with list";
+            }
+            $log.error(message + '\n' + angular.toJson(error.data, true));
+        }
+
+        function addList(list) {
+            $log.debug("Sending new list");
+            return $http.post(apiEndpoint, list)
+                .then(processList)
+                .catch(function(error) {
+                   processError(error, "XHR failed to post list");
+                });
         }
     }
 
