@@ -17,6 +17,13 @@
            expect(ListService).not.toEqual(null);
         });
 
+        describe('hasChanges property', function() {
+           it('should exist', function() {
+                expect(ListService.hasChanges).not.toBe(null);
+                expect(typeof ListService.hasChanges).toEqual('boolean');
+           });
+        });
+
         describe('getLists function', function() {
            it('should exist', function() {
                expect(ListService.getLists).not.toEqual(null);

@@ -22,11 +22,20 @@
             views: {
               'lists@root': {
                 template: '<list-column lists="listVm.data.lists"></list-column>',
-                controller: function($scope, lists) {
+                controller: function($scope, lists, ListService) {
                   var vm = this;
                   vm.data = {
                     lists: lists
                   };
+                  $scope.$watch(function(){
+                    return ListService.hasChanges;
+                  }, function(newVal, oldVal){
+                    if (newVal) {
+                      ListService.getLists().then(function (response) {
+                        vm.data.lists = response;
+                      });
+                    }
+                  });
                 },
                 controllerAs: 'listVm'
               }
@@ -46,6 +55,7 @@
                     vm.saveList = function() {
                       ListService.addList(vm.newList)
                           .then(function(list) {
+                            ListService.hasChanges = true;
                             toastr.success('Added new list');
                             $state.transitionTo('root.list.selected', {list: list.slug});
                           })

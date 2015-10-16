@@ -11,6 +11,7 @@
         var apiEndpoint = 'http://shoppinglist.app/lists';
 
         var service = {
+            hasChanges: false,
             getLists: getLists,
             getList: getList,
             addList: addList
@@ -27,6 +28,7 @@
         }
 
         function processLists(response) {
+            service.hasChanges = false;
             return response.data.lists;
         }
 
@@ -39,10 +41,12 @@
         }
 
         function processList(response) {
+            service.hasChanges = false;
             return response.data;
         }
 
         function processError(error, message) {
+            service.hasChanges = false;
             if (!message) {
                 message = "Error with list";
             }
