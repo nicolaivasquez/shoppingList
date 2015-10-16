@@ -75,5 +75,43 @@
                 expect($log.error.logs).toEqual(jasmine.stringMatching('failed'));
             });
         });
+
+        describe('addItem function', function() {
+            it('should exist', function() {
+                expect(angular.isFunction(ItemService.addItem)).toBe(true);
+            });
+
+            it('should send item data and get a response', function() {
+                var sentData = {
+                    "name": "Item 1",
+                    "description": "This is a test item",
+                    "completed": false
+                };
+                var returnData = angular.copy(sentData);
+                returnData.slug = "item-1";
+                returnData.list = "list-1";
+
+                $httpBackend.when('POST', 'http://shoppinglist.app/lists/list-1/items', sentData).respond(201, returnData);
+                var data;
+                ItemService.addItem('list-1', sentData).then(function(response) {
+                    data = response;
+                });
+                $httpBackend.flush();
+                expect(data).toEqual(returnData);
+            });
+
+            it('should log error', function() {
+                var sentData = {
+                    "name": "Item 1",
+                    "description": "This is a test item",
+                    "completed": false
+                };
+                $httpBackend.when('POST', 'http://shoppinglist.app/lists/list-1/items', sentData).respond(400);
+                ItemService.addItem('list-1', sentData)
+                    .catch();
+                $httpBackend.flush();
+                expect($log.error.logs).toEqual(jasmine.stringMatching('failed'));
+            });
+        });
     });
 })();

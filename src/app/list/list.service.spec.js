@@ -92,11 +92,11 @@
                 $httpBackend.when('POST', 'http://shoppinglist.app/lists', sentData).respond(201, returnData);
 
                 var data;
-                ListService.addList(sentData, function(response) {
+                ListService.addList(sentData).then(function(response) {
                     data = response;
-                    expect(data).toEqual(returnData);
                 });
                 $httpBackend.flush();
+                expect(data).toEqual(returnData);
             });
 
             it('should log error', function() {
@@ -105,10 +105,10 @@
                     "description": "This is a test list"
                 };
                 $httpBackend.when('POST', 'http://shoppinglist.app/lists', sentData).respond(400);
-                ListService.addList(sentData, function(response) {
-                    expect($log.error.logs).toEqual(jasmine.stringMatching('failed'));
-                });
+                ListService.addList(sentData)
+                    .catch();
                 $httpBackend.flush();
+                expect($log.error.logs).toEqual(jasmine.stringMatching('failed'));
 
             });
         });
