@@ -5,14 +5,20 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">List</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" id="list-name" ng-model="vm.list.name">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">Description</label>
             <div class="col-sm-10">
-                <textarea class="form-control" rows="3"></textarea>
+                <textarea class="form-control" rows="3" ng-model="vm.list.description"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button class="btn btn-primary" ng-click="vm.saveList()">Add List</button>
             </div>
         </div>
     </form>
+    {{ vm.list }}
 </div>

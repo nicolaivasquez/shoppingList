@@ -36,8 +36,16 @@
               url: '^/lists-add',
               views: {
                 'detail@root': {
-                  template: '<new-list></new-list>',
+                  template: '<new-list list="newListVm.newList" save="newListVm.saveList()"></new-list>',
                   controller: function() {
+                    var vm = this;
+                    vm.newList = {
+                      "name": "",
+                      "description": ""
+                    };
+                    vm.saveList = function() {
+                      console.log(vm.newList);
+                    }
                   },
                   controllerAs: 'newListVm'
                 }
