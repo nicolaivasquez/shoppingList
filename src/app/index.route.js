@@ -10,17 +10,32 @@
     $stateProvider
         .state('root', {
           url: '/',
-          templateUrl: 'app/root/root.html'
+          templateUrl: 'app/root/root.html',
         })
+          .state('root.login', {
+            url: '^/login',
+            views: {
+              'content@root': {
+                templateUrl: 'app/content/auth.html',
+              },
+              'auth@root.login': {
+                template: '<login-form></login-form>',
+              }
+            }
+          })
           .state('root.list', {
             url: '^/lists',
             resolve: {
               lists: function(ListService) {
                 return ListService.getLists();
-              }
+              },
+              loginRequired: loginRequired
             },
             views: {
-              'lists@root': {
+              'content@root': {
+                templateUrl: 'app/content/content.html',
+              },
+              'lists@root.list': {
                 template: '<list-column lists="listVm.data.lists"></list-column>',
                 controller: function($scope, lists, ListService) {
                   var vm = this;
@@ -44,7 +59,7 @@
             .state('root.list.new', {
               url: '^/lists-add',
               views: {
-                'detail@root': {
+                'detail@root.list': {
                   template: '<new-list list="newListVm.newList" save="newListVm.saveList()"></new-list>',
                   controller: function(ListService, toastr, $state) {
                     var vm = this;
@@ -81,7 +96,7 @@
                 }]
               },
               views: {
-                'items@root': {
+                'items@root.list': {
                   template: '<item-column list="selectedListItemVm.data.list" items="selectedListItemVm.data.items"></item-column>',
                   controller: function($scope, items, ActiveList, ItemService) {
                     var vm = this;
@@ -101,7 +116,7 @@
                   },
                   controllerAs: 'selectedListItemVm'
                 },
-                'detail@root': {
+                'detail@root.list': {
                   template: '<detail-column list="selectedListDetailVm.data.list"></detail-column>',
                   controller: function(ActiveList) {
                     var vm = this;
@@ -116,7 +131,7 @@
               .state('root.list.selected.newItem', {
                 url: '^/lists/:list/items-add',
                 views: {
-                  'detail@root': {
+                  'detail@root.list': {
                     template: '<new-item item="newItemVm.newItem" save="newItemVm.saveItem()"></new-item>',
                     controller: function(ItemService, toastr, $state, ActiveList) {
                       var vm = this;
@@ -153,7 +168,7 @@
                   }
                 },
                 views: {
-                  'detail@root': {
+                  'detail@root.list': {
                     template: '<detail-column list="selectedItemDetailVm.data.list" item="selectedItemDetailVm.data.item"></detail-column>',
                     controller: function($scope, ActiveItem, ActiveList) {
                       var vm = this;
@@ -168,6 +183,16 @@
               });
 
     $urlRouterProvider.otherwise('/');
+  }
+
+  function loginRequired($q, $location, $auth) {
+    var deferred = $q.defer();
+    if ($auth.isAuthenticated()) {
+      deferred.resolve();
+    } else {
+      $location.path('/login');
+    }
+    return deferred.promise;
   }
 
 })();

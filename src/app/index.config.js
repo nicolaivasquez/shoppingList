@@ -6,7 +6,7 @@
     .config(config);
 
   /** @ngInject */
-  function config($logProvider, toastrConfig) {
+  function config($logProvider, toastrConfig, $authProvider) {
     // Enable log
     $logProvider.debugEnabled(true);
 
@@ -16,6 +16,11 @@
     toastrConfig.positionClass = 'toast-top-right';
     toastrConfig.preventDuplicates = false;
     toastrConfig.progressBar = true;
+
+    // enable satellizer authentication
+    $authProvider.facebook({
+      clientId: '1707250906171201'
+    });
   }
 
 })();
