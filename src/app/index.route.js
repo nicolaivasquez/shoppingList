@@ -56,9 +56,9 @@
                       ListService.addList(vm.newList)
                           .then(function(list) {
                             ListService.hasChanges = true;
-                            toastr.success('Added new list');
                             $state.transitionTo('root.list.selected', {list: list.slug});
-                          }, function(error) {
+                            toastr.success('Added new list');
+                          }).catch(function(error) {
                             toastr.error('Error saving list!')
                           });
                     }
