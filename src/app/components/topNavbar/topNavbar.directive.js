@@ -11,7 +11,8 @@
             restrict: 'E',
             templateUrl: 'app/components/topNavbar/topNavbar.html',
             scope: {
-              authenticated: '='
+              authenticated: '=',
+              user: '='
             },
             controller: TopNavbarController,
             controllerAs: 'vm',

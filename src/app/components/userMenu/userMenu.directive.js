@@ -9,9 +9,11 @@
     var directive = {
       restrict: 'E',
       template: '<li>' +
-        '<a href="#">User Profile Here</a>' +
+        '<a href="#">{{vm.user.displayName}}</a>' +
       '</li>',
-      scope: {},
+      scope: {
+        user: '='
+      },
       controller: function() {
 
       },

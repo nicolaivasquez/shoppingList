@@ -11,14 +11,20 @@
         .state('root', {
           url: '/',
           templateUrl: 'app/root/root.html',
-          controller: function($scope, $auth) {
+          controller: function($scope, $auth, AccountService) {
             var vm = this;
             vm.isAuthenticated;
             vm.user = {};
-            $scope.$watchCollection(function(){
-              return [$auth.isAuthenticated()];
+            $scope.$watch(function(){
+              return $auth.isAuthenticated();
             }, function(newVal, oldVal) {
-              vm.isAuthenticated = newVal[0];
+              vm.isAuthenticated = newVal;
+              if (newVal) {
+                AccountService.getProfile()
+                  .then(function(user){
+                    vm.user = user;
+                  });
+              }
             });
           },
           controllerAs: 'rootVm'
