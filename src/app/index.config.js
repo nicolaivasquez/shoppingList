@@ -21,6 +21,7 @@
     $authProvider.facebook({
       clientId: '1707250906171201'
     });
+    $authProvider.baseUrl = 'http://shoppinglist.app/';
   }
 
 })();
