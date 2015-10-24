@@ -11,6 +11,17 @@
         .state('root', {
           url: '/',
           templateUrl: 'app/root/root.html',
+          controller: function($scope, $auth) {
+            var vm = this;
+            vm.isAuthenticated;
+            vm.user = {};
+            $scope.$watchCollection(function(){
+              return [$auth.isAuthenticated()];
+            }, function(newVal, oldVal) {
+              vm.isAuthenticated = newVal[0];
+            });
+          },
+          controllerAs: 'rootVm'
         })
           .state('root.login', {
             url: '^/login',
@@ -21,6 +32,9 @@
               'auth@root.login': {
                 template: '<login-form></login-form>',
               }
+            },
+            resolve: {
+              skipIfLoggedIn: skipIfLoggedIn
             }
           })
           .state('root.list', {
@@ -191,6 +205,16 @@
       deferred.resolve();
     } else {
       $location.path('/login');
+    }
+    return deferred.promise;
+  }
+
+  function skipIfLoggedIn($q, $auth) {
+    var deferred = $q.defer();
+    if ($auth.isAuthenticated()) {
+      deferred.reject();
+    } else {
+      deferred.resolve();
     }
     return deferred.promise;
   }

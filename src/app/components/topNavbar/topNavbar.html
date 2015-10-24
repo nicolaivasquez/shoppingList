@@ -20,6 +20,10 @@
                         <!--<img src="images/gulp-tiny.png" />-->
                     <!--</a>-->
                 <!--</li>-->
+              <user-menu ng-if="vm.authenticated" user=""></user-menu>
+              <li ng-if="!vm.authenticated">
+                <a ui-sref="root.login">Sign In</a>
+              </li>
             </ul>
         </div>
     </div>

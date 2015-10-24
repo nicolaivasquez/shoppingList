@@ -11,6 +11,7 @@
             restrict: 'E',
             templateUrl: 'app/components/topNavbar/topNavbar.html',
             scope: {
+              authenticated: '='
             },
             controller: TopNavbarController,
             controllerAs: 'vm',
@@ -21,8 +22,7 @@
 
         /** @ngInject */
         function TopNavbarController() {
-            //var vm = this;
-
+            var vm = this;
         }
     }
 
