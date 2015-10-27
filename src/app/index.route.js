@@ -8,6 +8,21 @@
   /** @ngInject */
   function routerConfig($stateProvider, $urlRouterProvider) {
     $stateProvider
+        .state('logout', {
+          url: '^/logout',
+          template: null,
+          controller: function($auth, $location, toastr){
+            console.log('Hello');
+            console.log($auth.isAuthenticated());
+            if (!$auth.isAuthenticated()) { return; }
+
+            $auth.logout()
+              .then(function(){
+                toastr.info('You have successfully logged out.');
+                $location.path('/');
+              });
+          }
+        })
         .state('root', {
           url: '/',
           templateUrl: 'app/root/root.html',
@@ -41,6 +56,15 @@
             },
             resolve: {
               skipIfLoggedIn: skipIfLoggedIn
+            }
+          })
+          .state('root.profile', {
+            url: '^/profile',
+            views: {
+
+            },
+            resolve: {
+              loginRequired: loginRequired
             }
           })
           .state('root.list', {

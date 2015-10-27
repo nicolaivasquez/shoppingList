@@ -8,9 +8,7 @@
   function userMenu() {
     var directive = {
       restrict: 'E',
-      template: '<li>' +
-        '<a href="#">{{vm.user.displayName}}</a>' +
-      '</li>',
+      templateUrl: 'app/components/userMenu/userMenu.directive.html',
       scope: {
         user: '='
       },
