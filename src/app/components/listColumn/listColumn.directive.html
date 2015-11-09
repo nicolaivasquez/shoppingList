@@ -1,10 +1,10 @@
 <div class="col-sm-2 sidebar">
     <div class="list-group">
+        <a href class="list-group-item" ui-sref="root.list.new" ui-sref-active="active">
+          <span class="glyphicon-plus glyphicon" aria-hidden="true"></span> New List
+        </a>
         <a ng-repeat="list in vm.lists" class="list-group-item" ui-sref="root.list.selected({ list: list.slug })" ui-sref-active="active">
             {{ list.name }}
-        </a>
-        <a href class="list-group-item" ui-sref="root.list.new" ui-sref-active="active">
-            <span class="glyphicon-plus glyphicon" aria-hidden="true"></span> New List
         </a>
     </div>
 </div>

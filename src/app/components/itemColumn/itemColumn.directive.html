@@ -1,11 +1,8 @@
 <div class="col-sm-3 col-sm-offset-2 item-column">
     <div class="list-group">
-        <a ng-repeat="item in vm.items" class="list-group-item" ui-sref="root.list.selected.item({list: item.list, item: item.slug})" ui-sref-active="active">
-            <!--<item-completed list="vm.parentList" item="item"></item-completed>-->
-            {{ item.name }}
-        </a>
         <a href class="list-group-item new-item" ui-sref="root.list.selected.newItem({list: vm.list.slug})" ui-sref-active="active">
             <span class="glyphicon-plus glyphicon" aria-hidden="true"></span> New Item
         </a>
+      <list-item ng-repeat="item in vm.items" item="item"></list-item>
     </div>
 </div>
